@@ -6,6 +6,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [
+    "elleon",
+    "graphql",
+    "graph",
+    "apollo",
+    "node",
+    "graphql framework"
+  ],
   "author": "Brian Schardt(Alois)",
   "license": "MIT",
   "dependencies": {
@@ -14,5 +22,9 @@
     "graphql-tools": "^3.0.1",
     "lodash": "^4.17.10",
     "pluralize": "^7.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brianalois/elleon.git"
   }
 }
