@@ -1,5 +1,5 @@
 {
-  "name": "idunn",
+  "name": "elleon",
   "version": "0.0.1",
   "description": "library for graphql and node",
   "main": "index.js",
@@ -17,6 +17,7 @@
   "author": "Brian Schardt(Alois)",
   "license": "MIT",
   "dependencies": {
+    "graphql": "^0.13.2",
     "graphql-fields": "^1.0.2",
     "graphql-subscriptions": "^0.5.8",
     "graphql-tools": "^3.0.1",
