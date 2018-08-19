@@ -7,16 +7,16 @@ npm i elleon
 ```
 
 ## Example
-
+#### Apollo Server 1
 ```angular2html
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 
 
 const models = require('./models');)
-let Elleon = require('elleon');
+let elleon = require('elleon');
 
-let elleon = new Elleon({sequelize_models:models, resolvers:__dirname+'./resolvers'});
-let schema = elleon.makeExecuteableSchema();
+const elleonInstance = new elleon({logging:false, subscriptions:true, sequelize:{models:models} , resolver_path:__dirname+'/resolvers', });
+let schema = elleonInstance.makeExecuteableSchema();
 let graph_app = graphqlExpress({
                     schema: schema,
                     context: {
@@ -30,4 +30,26 @@ app.use(
 );
 ```
 
+#### Apollo Server 2
+```angular2html
+const { ApolloServer } = require('apollo-server-express');
+const cors          = require('cors');
+const models        = require('./models');
+const elleon        = require('elleon');
+
+const app = express();
+app.use(cors('*'));
+
+
+const elleonInstance = new elleon({logging:false, subscriptions:true, sequelize:{models:models} , resolver_path:__dirname+'/resolvers', });
+const typesResolvers = elleonInstance.getTypeDefsAndResolvers();
+
+const server = new ApolloServer({ typeDefs:typesResolvers.typeDefs, resolvers:typesResolvers.resolvers });
+server.applyMiddleware({ app });
+
+let port = 3000;
+app.listen({ port }, () =>
+    console.log(`Server ready at http://localhost:${port}${server.graphqlPath}`),
+);
+```
 # More Coming...
