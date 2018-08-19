@@ -61,6 +61,7 @@ In it we would include:
 
 module.exports.getUser = {
   type: 'Query',
+  arguments: false,
   returnType: 'User',
   resolver: () => {
     return {
@@ -70,9 +71,21 @@ module.exports.getUser = {
   }
 };
 
+module.exports.loginUser = {
+  type: 'Query',
+  arguments: '(email: String, password: String)',
+  returnType: 'User',
+  resolver: (data, args) => {
+    console.log(data, args);
+    return {
+        id: 2,
+        email:'test@test.com',
+    }
+  },
+};
 ```
 
-This returnType value could be
+The **returnType** value could be
 ```angular2html
 returnType: 'User'
 returnType: '[User]'
