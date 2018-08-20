@@ -1,6 +1,6 @@
 {
   "name": "elleon",
-  "version": "0.1.9",
+  "version": "0.1.11",
   "description": "library for graphql and node",
   "main": "index.js",
   "scripts": {

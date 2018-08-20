@@ -114,3 +114,61 @@ const elleonInstance = new elleon({
 });
 
 ```
+
+## Example Sequelize Schema
+contains custom options for graphql schema
+
+```angular2html
+const bcrypt 			= require('bcrypt');
+const bcrypt_p 			= require('bcrypt-promise');
+const {to}              = require('await-to-js');
+
+module.exports = (sequelize, DataTypes) => {
+  const User = sequelize.define('user', {
+    email: {
+      type: DataTypes.STRING,
+      unique: true,
+    },
+    password: {
+      type:DataTypes.STRING,
+      graphql: { getQueryAttribute:false, getQueryInput:false },
+    },
+  });
+
+  User.beforeSave(async (user, options) => {
+      let err;
+      if (user.changed('password')){
+          let salt, hash
+          [err, salt] = await to(bcrypt.genSalt(10));
+          if(err) TE(err.message, true);
+
+          [err, hash] = await to(bcrypt.hash(user.password, salt));
+          if(err) TE(err.message, true);
+
+          user.password = hash;
+      }
+  });
+
+  User.prototype.comparePassword = async function (pw) {
+      let err, pass
+      if(!this.password) TE('password not set');
+
+      [err, pass] = await to(bcrypt_p.compare(pw, this.password));
+      if(err) TE(err);
+
+      if(!pass) TE('invalid password');
+
+      return this;
+  };
+
+
+  User.graphqlOptions = {
+      addAttributes:{
+          jwt:{schemaType:'String', relation:'one'}//options one or many
+      },
+  };
+
+  return User;
+};
+
+```
